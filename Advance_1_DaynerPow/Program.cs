@@ -195,7 +195,7 @@ namespace Advance_1_DaynerPow
                     }
                         else if (normal > 600)
                         {
-                            Output(normal, 600, 1.92, 1152);
+                            Output(normal, 600, 1.92, 984);
                         }
             }
             catch (Exception ex)
