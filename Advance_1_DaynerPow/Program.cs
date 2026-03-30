@@ -5,45 +5,13 @@ namespace Advance_1_DaynerPow
 {
     internal class Program
     {
-        static void SummaryText(string text, double summary)
+        static void Task1()
         {
-            Console.WriteLine(summary.ToString("F2") + "% " + text);
-        }
-
-        static void ShowSeparator()
-        {
-            Console.WriteLine("=============================");
-        }
-
-        static void ShowResult(double result)
-        {
-            Console.WriteLine("До оплати: " + result + "грн");
-        }
-
-        static void Output(double normal, int num1, double tarifCost, int other)
-        {
-            double result = ((normal - num1) * tarifCost) + other;
-            ShowSeparator();
-            ShowResult(result);
-            return;
-        }
-
-        static void Write(string text)
-        {
-            Console.WriteLine(text);
-        }
-
-        static void Main(string[] args)
-        {
-            Console.OutputEncoding = Encoding.Unicode;
-            Console.InputEncoding = Encoding.Unicode;
-
-            //1
-
-            /*try
+            try
             {
                 Write("Вкажіть вашу ціль по крокам: ");
                 double sumSteps = Convert.ToDouble(Console.ReadLine());
+                ShowSeparator();
 
                     if (sumSteps == 0 || sumSteps < 0)
                     {
@@ -96,21 +64,18 @@ namespace Advance_1_DaynerPow
                                         ShowSeparator();
                                         SummaryText("Та тобі на олімпійські ігри треба", summary);
                                     }
-                }
-                catch(Exception ex)
-                {
-                    ShowSeparator();
-                    Write("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
-                    return;
-                }
-            */
+            }
+            catch(Exception ex)
+            {
+                ShowSeparator();
+                Write("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
+                return;
+            }
+        }
 
-
-
-
-            //2.
-
-            /*try
+        static void Task2()
+        {
+            try
             {
                 double discount = 0;
 
@@ -170,13 +135,11 @@ namespace Advance_1_DaynerPow
                 Write("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
                 return;
             }
-            */
+        }
 
-
-
-            //3
-
-            /*try
+        static void Task3()
+        {
+            try
             {
                 Write("Введіть кількість спожитої електроенергії (кВ/год):");
                 double normal = Convert.ToDouble(Console.ReadLine());
@@ -208,8 +171,68 @@ namespace Advance_1_DaynerPow
                 ShowSeparator();
                 Write("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
                 return;
-            }*/
-        
+            }
+        }
+
+
+        static void SummaryText(string text, double summary)
+        {
+            Console.WriteLine(summary.ToString("F2") + "% " + text);
+        }
+
+        static void ShowSeparator()
+        {
+            Console.WriteLine("=============================");
+        }
+
+        static void ShowResult(double result)
+        {
+            Console.WriteLine("До оплати: " + result + "грн");
+        }
+
+        static void Output(double normal, int num1, double tarifCost, int other)
+        {
+            double result = ((normal - num1) * tarifCost) + other;
+            ShowSeparator();
+            ShowResult(result);
+            return;
+        }
+
+        static void Write(string text)
+        {
+            Console.WriteLine(text);
+        }
+
+        static void Main(string[] args)
+        {
+            Console.OutputEncoding = Encoding.Unicode;
+            Console.InputEncoding = Encoding.Unicode;
+
+            Write("Виберіть задачу (1 або 2 або 3):");
+            string choice = Console.ReadLine();
+                switch (choice)
+                {
+                    case "1":
+                        ShowSeparator();
+                        Task1();
+                        break;
+
+                    case "2":
+                        ShowSeparator();
+                        Task2();
+                        break;
+
+                    case "3":
+                        ShowSeparator();
+                        Task3();
+                        break;
+
+                    default:
+                        ShowSeparator();
+                        Write("!Невірний набір!");
+                        break;
+                }
+
         }
     }
 }
