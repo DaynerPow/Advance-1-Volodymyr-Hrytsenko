@@ -9,25 +9,22 @@ namespace Advance_1_DaynerPow
         {
             try
             {
-                Write("Вкажіть вашу ціль по крокам: ");
+                SeparateAndWrite("Вкажіть вашу ціль по крокам: ");
                 double sumSteps = Convert.ToDouble(Console.ReadLine());
-                ShowSeparator();
 
-                    if (sumSteps == 0 || sumSteps < 0)
+                    if (sumSteps <= 0)
                     {
-                        ShowSeparator();
-                        Write("Або ви не хочете ходити, або ви помилилися.");
+                        SeparateAndWrite("Або ви не хочете ходити, або ви помилилися.");
                         return;
                     }
 
 
-                Write("Вкажіть скільки кроків ви вже пройшли: ");
+                Console.WriteLine("Вкажіть скільки кроків ви вже пройшли: ");
                 double completeSteps = Convert.ToDouble(Console.ReadLine());
 
                     if (completeSteps < 0)
                     {
-                        ShowSeparator();
-                        Write("Ви не могли ходити від'ємно.");
+                        SeparateAndWrite("Ви не могли ходити від'ємно.");
                         return;
                     }
 
@@ -37,39 +34,32 @@ namespace Advance_1_DaynerPow
 
                     if (summary < 70)
                     {
-                        ShowSeparator();
                         SummaryText("Давай рухайся", summary);
                     }
 
                         else if (summary < 90)
                         {
-                            ShowSeparator();
                             SummaryText("Мета вже не за горами!", summary);
                         }
 
                             else if (summary < 100)
                             {
-                                ShowSeparator();
                                 SummaryText("Давай! Ще трохи!", summary);
                             }
 
                                 else if (summary < 200)
                                 {
-                                    ShowSeparator();
                                     SummaryText("Ціль досягнута, молодчина! Тепер і поспати можна", summary);
                                 }
 
                                     else
                                     {
-                                        ShowSeparator();
                                         SummaryText("Та тобі на олімпійські ігри треба", summary);
                                     }
             }
             catch(Exception ex)
             {
-                ShowSeparator();
-                Write("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
-                return;
+                ErrorMessage(ex);
             }
         }
 
@@ -79,17 +69,16 @@ namespace Advance_1_DaynerPow
             {
                 double discount = 0;
 
-                Write("Сума вашої покупки у грн:");
+                SeparateAndWrite("Сума вашої покупки у грн:");
                 double purchase = Convert.ToDouble(Console.ReadLine());
 
                     if (purchase <= 0)
                     {
-                        Write("Помилка, Ви нічого не купили!");
+                        SeparateAndWrite("Помилка, Ви нічого не купили!");
                         return;
                     }
-                    ShowSeparator();
 
-                Write("Ви маєте карту лояльності? 1 - так,  інше - ні");
+                SeparateAndWrite("Ви маєте карту лояльності? 1 - так,  інше - ні");
                 string card = Console.ReadLine();
                 bool hasCard = card == "1";
 
@@ -102,8 +91,7 @@ namespace Advance_1_DaynerPow
                                 discount += 2;
                             }
 
-                        ShowSeparator();
-                        Write("Знижку за картою нараховано!");
+                        SeparateAndWrite("Знижку за картою нараховано!");
                     }
 
                     if (purchase >= 2000 && purchase < 10000)
@@ -115,24 +103,20 @@ namespace Advance_1_DaynerPow
                             discount += 5;
                         }
 
-                Write("Загальна знижка:" + discount + "%");
-                ShowSeparator();
+                Console.WriteLine("Загальна знижка:" + discount + "%");
 
 
                 double cashBack = ((purchase * discount) / 100);
 
-                Write("Сума кешбеку " + cashBack + "грн");
-                ShowSeparator();
+                SeparateAndWrite("Сума кешбеку " + cashBack + "грн");
 
-                Write(purchase + " - " + cashBack);
-                Write("Загальна вартість: " + (purchase - cashBack) + "грн");
+                SeparateAndWrite(purchase + " - " + cashBack);
+                Console.WriteLine("Загальна вартість: " + (purchase - cashBack) + "грн");
 
             }
             catch (Exception ex) 
             {
-                ShowSeparator();
-                Write("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
-                return;
+                ErrorMessage(ex);
             }
         }
 
@@ -140,42 +124,61 @@ namespace Advance_1_DaynerPow
         {
             try
             {
-                Write("Введіть кількість спожитої електроенергії (кВ/год):");
-                double normal = Convert.ToDouble(Console.ReadLine());
+                const double tariffUpTo100 = 1.44;
+                const double tariffUpTo600 = 1.68;
+                const double tariffAbove600 = 1.92;
 
-                    if (normal < 0)
+                const int limit1 = 100;
+                const int limit2 = 600;
+
+                SeparateAndWrite("Введіть кількість спожитої електроенергії (кВт/год):");
+                double consumed = Convert.ToDouble(Console.ReadLine());
+
+                    if (consumed < 0)
                     {
-                        Write("ПОМИЛКА! Електроенергія неможе бути від'ємною >:(");
+                        Console.WriteLine("ПОМИЛКА! Електроенергія не може бути від'ємною >:(");
                         return;
                     }
 
-                    if (normal <= 100)
+                double result;
+
+                    if (consumed <= limit1)
                     {
-                        double result = normal * 1.44;
-                        ShowSeparator();
-                        ShowResult(result);
-                        return;
+                        result = consumed * tariffUpTo100;
                     }
-                        else if (normal <= 600)
+                        else if (consumed <= limit2)
                         {
-                            Output(normal, 100, 1.68, 144);
+                            result = CalculateCost(consumed, limit1, tariffUpTo600, limit1 * tariffUpTo100);
                         }
-                            else if (normal > 600)
+                            else
                             {
-                                Output(normal, 600, 1.92, 984);
+                                result = CalculateCost(consumed, limit2, tariffAbove600,(limit1 * tariffUpTo100) + ((limit2 - limit1) * tariffUpTo600));
                             }
+
+                SeparateAndWrite("До оплати: " + result + "грн");
             }
             catch (Exception ex)
             {
-                ShowSeparator();
-                Write("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
-                return;
+                ErrorMessage(ex);
             }
         }
 
+        static void ErrorMessage(Exception ex)
+        {
+            ShowSeparator();
+            Console.WriteLine("!ПОМИЛКА! Введено некоректне значення. | " + "Причина: " + ex.Message);
+            return;
+        }
+
+        static void SeparateAndWrite(string text)
+        {
+            ShowSeparator();
+            Console.WriteLine(text);
+        }
 
         static void SummaryText(string text, double summary)
         {
+            ShowSeparator();
             Console.WriteLine(summary.ToString("F2") + "% " + text);
         }
 
@@ -184,51 +187,35 @@ namespace Advance_1_DaynerPow
             Console.WriteLine("=============================");
         }
 
-        static void ShowResult(double result)
+        static double CalculateCost(double consumed, int limit, double tariff, double baseCost)
         {
-            Console.WriteLine("До оплати: " + result + "грн");
+            return ((consumed - limit) * tariff) + baseCost;
         }
 
-        static void Output(double normal, int num1, double tarifCost, int other)
-        {
-            double result = ((normal - num1) * tarifCost) + other;
-            ShowSeparator();
-            ShowResult(result);
-            return;
-        }
-
-        static void Write(string text)
-        {
-            Console.WriteLine(text);
-        }
 
         static void Main(string[] args)
         {
             Console.OutputEncoding = Encoding.Unicode;
             Console.InputEncoding = Encoding.Unicode;
 
-            Write("Виберіть задачу (1 або 2 або 3):");
+            Console.WriteLine("Виберіть задачу (1 або 2 або 3):");
             string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "1":
-                        ShowSeparator();
                         Task1();
                         break;
 
                     case "2":
-                        ShowSeparator();
                         Task2();
                         break;
 
                     case "3":
-                        ShowSeparator();
                         Task3();
                         break;
 
                     default:
-                        ShowSeparator();
-                        Write("!Невірний набір!");
+                        SeparateAndWrite("!Невірний набір!");
                         break;
                 }
 
