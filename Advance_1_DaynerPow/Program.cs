@@ -79,7 +79,6 @@ namespace Advance_1_DaynerPow
             {
                 double discount = 0;
 
-                ShowSeparator();
                 Write("Сума вашої покупки у грн:");
                 double purchase = Convert.ToDouble(Console.ReadLine());
 
